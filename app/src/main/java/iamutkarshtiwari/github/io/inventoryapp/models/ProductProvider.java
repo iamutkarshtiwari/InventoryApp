@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-
 import iamutkarshtiwari.github.io.inventoryapp.models.ProductContract.ProductEntry;
 
 /**

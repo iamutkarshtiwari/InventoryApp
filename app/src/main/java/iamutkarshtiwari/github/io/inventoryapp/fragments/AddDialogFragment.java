@@ -24,8 +24,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import iamutkarshtiwari.github.io.inventoryapp.R;
-import iamutkarshtiwari.github.io.inventoryapp.utils.PermissionUtils;
 import iamutkarshtiwari.github.io.inventoryapp.models.ProductContract.ProductEntry;
+import iamutkarshtiwari.github.io.inventoryapp.utils.PermissionUtils;
 
 /**
  * Created by utkarshtiwari on 19/10/17.
@@ -45,7 +45,6 @@ public class AddDialogFragment extends DialogFragment {
         final View addView = inflater.inflate(R.layout.add_dialog, null);
 
         Button selectImageButton = (Button) addView.findViewById(R.id.btn_image);
-        // set up click listener for the button of "Select Image"
         selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +76,6 @@ public class AddDialogFragment extends DialogFragment {
 
                     @Override
                     public void onClick(View view) {
-                        // add wantToCloseDialog to prevent the dialog from closing when the information is not completely filled out
                         Boolean wantToCloseDialog = false;
 
                         EditText editTextName = (EditText) addView.findViewById(R.id.name);
@@ -88,19 +86,17 @@ public class AddDialogFragment extends DialogFragment {
                         String quantityString = editTextQuantity.getText().toString().trim();
                         String priceString = editTextPrice.getText().toString().trim();
 
-                        // validate all the required infomation
-                        if (TextUtils.isEmpty(name)  || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(priceString)) {
+                        // Sanity check
+                        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(priceString)) {
                             Toast.makeText(getActivity(), getString(R.string.product_info_not_empty), Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             Integer quantity = Integer.parseInt(editTextQuantity.getText().toString().trim());
                             Float price = Float.parseFloat(editTextPrice.getText().toString().trim());
                             insertProduct(name, quantity, price, mImageURI);
                             wantToCloseDialog = true;
                         }
 
-                        // after successfully inserting product, dismiss the dialog
-                        if(wantToCloseDialog)
+                        if (wantToCloseDialog)
                             addDialog.dismiss();
                     }
                 });
@@ -120,7 +116,13 @@ public class AddDialogFragment extends DialogFragment {
         getActivity().getContentResolver().insert(ProductEntry.CONTENT_URI, values);
     }
 
-    // get result data from selecting an image
+    /**
+     * Get Image data from Intent callback
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -134,16 +136,9 @@ public class AddDialogFragment extends DialogFragment {
     public boolean checkPermissionREAD_EXTERNAL_STORAGE(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                        // Show an explanation to the user *asynchronously* -- don't block
-                        // this thread waiting for the user's response! After the user
-                        // sees the explanation, try again to request the permission.
                         PermissionUtils.showPermissionDialog(context.getString(R.string.external_storage), context, Manifest.permission.READ_EXTERNAL_STORAGE);
-
                     } else {
 
                         // No explanation needed, we can request the permission.
@@ -164,21 +159,14 @@ public class AddDialogFragment extends DialogFragment {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PermissionUtils.MY_PERMISSIONS_READ_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
                     startActivityForResult(new Intent(Intent.ACTION_PICK,
                                     android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             PermissionUtils.MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     Toast.makeText(getActivity(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 }

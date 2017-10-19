@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-
 import iamutkarshtiwari.github.io.inventoryapp.R;
 
 /**
@@ -20,12 +19,15 @@ import iamutkarshtiwari.github.io.inventoryapp.R;
 
 public class ModifyQuantityDialogFragment extends DialogFragment {
     int mQuantity;
-
-    public static interface QuantityListener {
-        void onFinishModifyQuantityDialog(String quantity);
-    }
-
     private QuantityListener mListener;
+
+    public static ModifyQuantityDialogFragment newInstance(int quantity) {
+        ModifyQuantityDialogFragment f = new ModifyQuantityDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt("quantity", quantity);
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -36,14 +38,6 @@ public class ModifyQuantityDialogFragment extends DialogFragment {
             throw new ClassCastException(activity.toString()
                     + " must implement QuantityListener");
         }
-    }
-
-    public static ModifyQuantityDialogFragment newInstance(int quantity) {
-        ModifyQuantityDialogFragment f = new ModifyQuantityDialogFragment();
-        Bundle args = new Bundle();
-        args.putInt("quantity", quantity);
-        f.setArguments(args);
-        return f;
     }
 
     @Override
@@ -58,7 +52,7 @@ public class ModifyQuantityDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String quantity = getString(R.string.default_product_quantity);
-                        if(! TextUtils.isEmpty(QuantityEditText.getText().toString().trim()))
+                        if (!TextUtils.isEmpty(QuantityEditText.getText().toString().trim()))
                             quantity = QuantityEditText.getText().toString().trim();
                         mListener.onFinishModifyQuantityDialog(quantity);
                     }
@@ -72,5 +66,9 @@ public class ModifyQuantityDialogFragment extends DialogFragment {
         alertDialog.show();
 
         return alertDialog;
+    }
+
+    public static interface QuantityListener {
+        void onFinishModifyQuantityDialog(String quantity);
     }
 }

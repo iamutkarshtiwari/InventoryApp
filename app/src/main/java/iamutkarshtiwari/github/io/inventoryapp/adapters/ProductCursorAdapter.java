@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.squareup.picasso.Picasso;
 
 import iamutkarshtiwari.github.io.inventoryapp.R;
@@ -56,7 +55,6 @@ public class ProductCursorAdapter extends CursorAdapter {
         if(imagePath!= null) {
             ivImage.setVisibility(View.VISIBLE);
             Picasso.with(context).load(Uri.parse(imagePath)).resize(100, 100).into(ivImage);
-//            ivImage.setImageURI(Uri.parse(imagePath));
         }
         else {
             ivImage.setVisibility(View.GONE);

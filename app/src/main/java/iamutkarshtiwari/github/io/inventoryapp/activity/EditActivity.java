@@ -143,7 +143,12 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
-    // get result data from selecting an image
+    /**
+     * Selects image data from gallery
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -154,7 +159,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    //  for the button of Modify Quantity
+    /**
+     * Modifies the product quantity
+     * @param view
+     */
     public void onModifyQuantity(View view) {
         Integer quantity = Integer.parseInt(mQuantityTextView.getText().toString().trim());
         ModifyQuantityDialogFragment newFragment = ModifyQuantityDialogFragment.newInstance(quantity);
@@ -166,7 +174,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mQuantityTextView.setText(quantity);
     }
 
-    // for the button of Order
+    /**
+     * To order more stock via mail
+     * @param view
+     */
     public void onOrder(View view) {
         String name = mNameEditText.getText().toString().trim();
         String message = createOrderSummary(name);
@@ -188,7 +199,6 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         return message;
     }
 
-    // for the button of Save
     public void onSave(View view) {
         saveProduct();
         finish();
@@ -225,7 +235,6 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    // for the button of Delete
     public void onDelete(View view) {
         showDeleteConfirmationDialog();
     }
@@ -256,7 +265,6 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         finish();
     }
 
-    // the method checks if two bitmaps are the same
     public boolean equals(Bitmap bitmap1, Bitmap bitmap2) {
         return bitmap1.sameAs(bitmap2);
     }
