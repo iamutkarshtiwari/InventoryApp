@@ -119,7 +119,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             mQuantityTextView.setText(Integer.toString(quantity));
             mPriceEditText.setText(Float.toString(price));
             if (imageURI != null) {
-                Picasso.with(this).load(Uri.parse(imageURI)).resize(100, 100).into(mImageView);
+                Picasso.with(this).load(Uri.parse(imageURI)).resize(100, 80).into(mImageView);
             }
         }
 

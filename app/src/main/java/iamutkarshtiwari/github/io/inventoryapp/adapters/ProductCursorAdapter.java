@@ -54,7 +54,7 @@ public class ProductCursorAdapter extends CursorAdapter {
         tvPrice.setText(Float.toString(price));
         if(imagePath!= null) {
             ivImage.setVisibility(View.VISIBLE);
-            Picasso.with(context).load(Uri.parse(imagePath)).resize(100, 100).into(ivImage);
+            Picasso.with(context).load(Uri.parse(imagePath)).resize(100, 80).into(ivImage);
         }
         else {
             ivImage.setVisibility(View.GONE);
